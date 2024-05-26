@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SportApp.Views.WelcomePage"
+             xmlns:vm="clr-namespace:SportApp.Viewmodels"
+             x:DataType="vm:WelcomePageViewmodel"
+             Background="#0c0d21">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="1.2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              HorizontalOptions="Center"
+              VerticalOptions="Center">
+            <Image Source="sport.png"
+                   WidthRequest="250"
+                   HeightRequest="250"/>
+        </Grid>
+        <VerticalStackLayout Grid.Row="1"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Start"
+                             Spacing="8">
+            <Label Text="Добро пожаловать!"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   FontSize="35"
+                   FontFamily="HelveticaRounded"
+                   TextColor="White"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="2" 
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Center"
+                             Spacing="20"
+                             Margin="20">
+            <Button Text="Войти"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding GoToLoginPageCommand}">
+            </Button>
+            <Button Text="Зарегистрироваться"
+                    FontFamily="MontserratBold"
+                    FontSize="15"
+                    TextColor="White"
+                    BackgroundColor="Transparent"/>
+            <Label Text="1.0.0"
+                   HorizontalOptions="Center"
+                   TextColor="White"
+                   FontFamily="MontserratRegular"
+                   FontSize="13"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
