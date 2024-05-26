@@ -4,9 +4,9 @@ namespace SportApp.Views;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage()
+	public LoginPage(LoginPageViewmodel pageViewmodel)
 	{
 		InitializeComponent();
-		BindingContext = new LoginPageViewmodel();
+		BindingContext = pageViewmodel;
 	}
 }
