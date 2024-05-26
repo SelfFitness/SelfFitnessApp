@@ -16,15 +16,24 @@ namespace SportApp.Viewmodels
     {
         private readonly Page _loginPage;
 
-        public WelcomePageViewmodel(LoginPage loginPage) 
+        private readonly Page _registerPage;
+
+        public WelcomePageViewmodel(LoginPage loginPage, RegisterPage registerPage) 
         {
             _loginPage = loginPage;
+            _registerPage = registerPage;
         }
 
         [RelayCommand]
         public async Task GoToLoginPage()
         {
             await Shell.Current.Navigation.PushAsync(_loginPage);
+        }
+
+        [RelayCommand]
+        public async Task GoToRegisterPage()
+        {
+            await Shell.Current.Navigation.PushAsync(_registerPage);
         }
     }
 }

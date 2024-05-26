@@ -4,8 +4,9 @@ namespace SportApp.Views;
 
 public partial class RegisterPage : ContentPage
 {
-	public RegisterPage()
+	public RegisterPage(RegisterPageViewmodel viewmodel)
 	{
 		InitializeComponent();
+		BindingContext = viewmodel;
 	}
 }

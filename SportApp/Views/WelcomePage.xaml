@@ -42,7 +42,8 @@
                     FontFamily="MontserratBold"
                     FontSize="15"
                     TextColor="White"
-                    BackgroundColor="Transparent"/>
+                    BackgroundColor="Transparent"
+                    Command="{Binding GoToRegisterPageCommand}"/>
             <Label Text="1.0.0"
                    HorizontalOptions="Center"
                    TextColor="White"
