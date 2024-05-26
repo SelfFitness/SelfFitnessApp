@@ -1,27 +1,88 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+
+#if ANDROID
+using SportApp.Platforms.Android;
+using SportApp.Viewmodels;
+using SportApp.Views;
+#endif
 
 namespace SportApp
 {
     public static class MauiProgram
     {
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
-            builder
+        public static MauiApp CreateMauiApp() 
+            => MauiApp.CreateBuilder()
                 .UseMauiApp<App>()
                 .UseSkiaSharp()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+                .UseMauiCommunityToolkit()
+                .RegisterServices()
+                .RegisterViewModels()
+                .RegisterViews()
+                .RegisterFonts()
+                .RegisterHandlers()
+                .Build();
 
-#if DEBUG
-    		builder.Logging.AddDebug();
-#endif
+        public static MauiAppBuilder RegisterServices(this MauiAppBuilder mauiAppBuilder)
+        {
+            // More services registered here.
 
-            return builder.Build();
+            return mauiAppBuilder;
+        }
+
+        public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
+        {
+            #if ANDROID
+            mauiAppBuilder.Services.AddSingleton<MainPageViewmodel>();
+            mauiAppBuilder.Services.AddSingleton<LoginPageViewmodel>();
+            mauiAppBuilder.Services.AddSingleton<WelcomePageViewmodel>();
+            mauiAppBuilder.Services.AddSingleton<RegisterPageViewmodel>();
+            #endif
+            // More view-models registered here.
+
+            return mauiAppBuilder;
+        }
+
+        public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
+        {
+            #if ANDROID
+            mauiAppBuilder.Services.AddSingleton<MainPage>();
+            mauiAppBuilder.Services.AddSingleton<LoginPage>();
+            mauiAppBuilder.Services.AddSingleton<RegisterPage>();
+            mauiAppBuilder.Services.AddSingleton<WelcomePage>();
+            mauiAppBuilder.Services.AddSingleton<LoadingPopup>();
+            mauiAppBuilder.Services.AddSingleton<RegisterPage>();
+            #endif
+            // More views registered here.
+
+            return mauiAppBuilder;
+        }
+
+        public static MauiAppBuilder RegisterFonts(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("Montserrat-Regular.ttf", "MontserratRegular");
+                fonts.AddFont("Montserrat-Bold.ttf", "MontserratBold");
+                fonts.AddFont("Montserrat-ExtraBold.ttf", "MontserratExtraBold");
+                fonts.AddFont("Montserrat-Medium.ttf", "MontserratMedium");
+                fonts.AddFont("HelveticaRoundedLTStd-Bd.ttf", "HelveticaRounded");
+            });
+            return mauiAppBuilder;
+        }
+
+        public static MauiAppBuilder RegisterHandlers(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.ConfigureMauiHandlers(handlers =>
+             {
+                #if ANDROID
+                 handlers.AddHandler(typeof(Entry), typeof(MyEntryHandler));
+                #endif
+             });
+            return mauiAppBuilder;
         }
     }
 }
