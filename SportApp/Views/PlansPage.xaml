@@ -4,12 +4,68 @@
              x:Class="SportApp.Views.PlansPage"
              Title="PlansPage"
              xmlns:vm="clr-namespace:SportApp.Viewmodels"
+             xmlns:models="clr-namespace:SportApp.Models"
              x:DataType="vm:PlansPageViewmodel"
              Background="#0c0d21">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to Plans!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label Text="Все программы" 
+                   Margin="20"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   FontSize="30"
+                   FontFamily="HelveticaRounded"
+                   TextColor="White"/>
+            <StackLayout BindableLayout.ItemsSource="{Binding PlanGroups}"
+                         Padding="20">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:PlanGroup">
+                        <Border Stroke="#161833"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 17,17,17,17"
+                            Background="#161833">
+                            <StackLayout Padding="10" Spacing="20">
+                                <Label HorizontalTextAlignment="Start"
+                                       Text="{Binding Name}"
+                                       Margin="10"
+                                       TextColor="White"
+                                       FontFamily="Montserrat-Bold"
+                                       FontSize="25"/>
+                                <StackLayout BindableLayout.ItemsSource="{Binding Plans}"
+                                         Spacing="20">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="models:Plan">
+                                            <Border Grid.Row="1"
+                                                BackgroundColor="#181B3F"
+                                                StrokeShape="RoundRectangle 25,25,25,25">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="2.5*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Text="{Binding Title}"
+                                                       Grid.Column="0"
+                                                       Margin="20"
+                                                       HorizontalTextAlignment="Start"
+                                                       FontSize="20"/>
+                                                    <HorizontalStackLayout Grid.Column="1">
+                                                        <Image Source="thinpurple.png"
+                                                           WidthRequest="20"/>
+                                                        <Image Source="thingray.png"
+                                                           WidthRequest="20"/>
+                                                        <Image Source="thingray.png"
+                                                           WidthRequest="20"/>
+                                                    </HorizontalStackLayout>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+                            </StackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
