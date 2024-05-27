@@ -1,12 +1,10 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
-
-#if ANDROID
 using SportApp.Platforms.Android;
 using SportApp.Viewmodels;
 using SportApp.Views;
-#endif
+
 
 namespace SportApp
 {
@@ -33,12 +31,14 @@ namespace SportApp
 
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
         {
-            #if ANDROID
+
             mauiAppBuilder.Services.AddSingleton<MainPageViewmodel>();
             mauiAppBuilder.Services.AddSingleton<LoginPageViewmodel>();
             mauiAppBuilder.Services.AddSingleton<WelcomePageViewmodel>();
             mauiAppBuilder.Services.AddSingleton<RegisterPageViewmodel>();
-            #endif
+            mauiAppBuilder.Services.AddSingleton<PlansPageViewmodel>();
+            mauiAppBuilder.Services.AddSingleton<AnalyticsPageViewmodel>();
+            mauiAppBuilder.Services.AddSingleton<SettingsPageViewmodel>();
             // More view-models registered here.
 
             return mauiAppBuilder;
@@ -46,14 +46,15 @@ namespace SportApp
 
         public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
         {
-            #if ANDROID
             mauiAppBuilder.Services.AddSingleton<MainPage>();
             mauiAppBuilder.Services.AddSingleton<LoginPage>();
             mauiAppBuilder.Services.AddSingleton<RegisterPage>();
             mauiAppBuilder.Services.AddSingleton<WelcomePage>();
             mauiAppBuilder.Services.AddSingleton<LoadingPopup>();
             mauiAppBuilder.Services.AddSingleton<RegisterPage>();
-            #endif
+            mauiAppBuilder.Services.AddSingleton<SettingsPage>();
+            mauiAppBuilder.Services.AddSingleton<PlansPage>();
+            mauiAppBuilder.Services.AddSingleton<AnalyticsPage>();
             // More views registered here.
 
             return mauiAppBuilder;
@@ -78,9 +79,7 @@ namespace SportApp
         {
             mauiAppBuilder.ConfigureMauiHandlers(handlers =>
              {
-                #if ANDROID
                  handlers.AddHandler(typeof(Entry), typeof(MyEntryHandler));
-                #endif
              });
             return mauiAppBuilder;
         }

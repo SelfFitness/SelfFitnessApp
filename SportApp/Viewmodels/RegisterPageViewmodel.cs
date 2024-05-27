@@ -47,11 +47,11 @@ namespace SportApp.Viewmodels
             if (!_isChecked)
             {
                 _isChecked = true;
-                ErrorMessage = "Неверно введены данные о почте";
+                ErrorMessage = "Ошибка при выполнении!";
                 await cts.CancelAsync();
                 return;
             }
-            await Shell.Current.Navigation.PushAsync(_mainPage);
+            await Shell.Current.GoToAsync("//tabs");
             await cts.CancelAsync();
         }
     }

@@ -7,5 +7,17 @@
     Shell.FlyoutBehavior="Disabled"
     Shell.NavBarIsVisible="False">
 
-    <ShellContent ContentTemplate="{DataTemplate pages:WelcomePage}"/>
+    <!-- <ShellContent ContentTemplate="{DataTemplate pages:WelcomePage}"/> -->
+    <TabBar Route="tabs">
+        <ShellContent Title="Plans"
+                      Icon="bullet_list.png"
+                      ContentTemplate="{DataTemplate pages:PlansPage}" />
+        <ShellContent Title="Analytics"
+                      Icon="analytics.png"
+                      ContentTemplate="{DataTemplate pages:AnalyticsPage}" />
+        <ShellContent Title="Settings"
+                      Icon="user.png"
+                      ContentTemplate="{DataTemplate pages:SettingsPage}" />
+    </TabBar>
+
 </Shell>

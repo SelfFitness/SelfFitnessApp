@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SportApp.Views.SettingsPage"
+             Title="SettingsPage"
+             xmlns:vm="clr-namespace:SportApp.Viewmodels"
+             x:DataType="vm:SettingsPageViewmodel"
+             Background="#0c0d21">
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome to Settings"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
