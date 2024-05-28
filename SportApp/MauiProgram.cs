@@ -15,6 +15,7 @@ namespace SportApp
                 .UseMauiApp<App>()
                 .UseSkiaSharp()
                 .UseMauiCommunityToolkit()
+                .UseMauiCommunityToolkitMediaElement()
                 .RegisterServices()
                 .RegisterViewModels()
                 .RegisterViews()
@@ -40,6 +41,7 @@ namespace SportApp
             mauiAppBuilder.Services.AddSingleton<AnalyticsPageViewmodel>();
             mauiAppBuilder.Services.AddSingleton<SettingsPageViewmodel>();
             mauiAppBuilder.Services.AddSingleton<PlanViewViewmodel>();
+            mauiAppBuilder.Services.AddSingleton<TrainPageViewmodel>();
             // More view-models registered here.
 
             return mauiAppBuilder;
@@ -57,6 +59,7 @@ namespace SportApp
             mauiAppBuilder.Services.AddSingleton<PlansPage>();
             mauiAppBuilder.Services.AddSingleton<AnalyticsPage>();
             mauiAppBuilder.Services.AddSingleton<PlanViewPage>();
+            mauiAppBuilder.Services.AddSingleton<TrainPage>();
             // More views registered here.
 
             return mauiAppBuilder;

@@ -22,12 +22,9 @@ namespace SportApp.Viewmodels
 
         private bool _isChecked;
 
-        private readonly Page _mainPage;
-
-        public LoginPageViewmodel(MainPage mainPage)
+        public LoginPageViewmodel()
         {
             _isChecked = false;
-            _mainPage = mainPage;
         }
 
         [RelayCommand]
@@ -53,7 +50,7 @@ namespace SportApp.Viewmodels
                 await cts.CancelAsync();
                 return;
             }
-            await Shell.Current.Navigation.PushAsync(_mainPage);
+            await Shell.Current.GoToAsync("//tabs");
             await cts.CancelAsync();
         }
     }

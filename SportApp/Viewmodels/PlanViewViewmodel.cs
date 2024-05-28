@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SportApp.Models;
+using SportApp.Views;
 
 namespace SportApp.Viewmodels
 {
@@ -9,14 +10,23 @@ namespace SportApp.Viewmodels
         [ObservableProperty]
         private Plan _plan;
 
-        public PlanViewViewmodel()
+        private readonly Page _trainPage;
+
+        private readonly TrainPageViewmodel _trainPageViewmodel;
+
+        public PlanViewViewmodel(TrainPage trainPage, TrainPageViewmodel trainPageViewmodel)
         {
+            _trainPage = trainPage;
+            _trainPageViewmodel = trainPageViewmodel;
         }
 
         [RelayCommand]
-        private async Task GoBack()
+        private async Task StartTrain()
         {
-            await Shell.Current.Navigation.PopToRootAsync();
+            _trainPageViewmodel.Plan = Plan;
+            _trainPageViewmodel.CurrentExerciseIndex = 0;
+            await Shell.Current.Navigation.PushAsync(_trainPage);
+            await _trainPageViewmodel.StartTimer();
         }
     }
 }

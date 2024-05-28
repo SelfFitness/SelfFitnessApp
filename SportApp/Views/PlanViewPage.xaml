@@ -113,6 +113,7 @@
               Padding="10">
             <Button Style="{StaticResource PrimaryButton}"
                     Text="Начать"
+                    Command="{Binding StartTrainCommand}"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"/>
         </Grid>
