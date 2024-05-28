@@ -6,8 +6,10 @@
              xmlns:vm="clr-namespace:SportApp.Viewmodels"
              xmlns:models="clr-namespace:SportApp.Models"
              xmlns:helpers ="clr-namespace:SportApp.Helpers"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="vm:PlansPageViewmodel"
-             Background="#0c0d21">
+             Background="#0c0d21"
+             x:Name="plansPage">
     <ScrollView>
         <VerticalStackLayout>
             <Label Text="Все программы" 
@@ -18,27 +20,43 @@
                    FontFamily="HelveticaRounded"
                    TextColor="White"/>
             <StackLayout BindableLayout.ItemsSource="{Binding PlanGroups}"
-                         Padding="20">
+                         Padding="20"
+                         Spacing="20">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:PlanGroup">
                         <Border Stroke="#161833"
                                 StrokeThickness="2"
                                 StrokeShape="RoundRectangle 17,17,17,17"
                                 Background="#161833">
-                            <StackLayout Padding="10" Spacing="20">
+                            <StackLayout Padding="10" 
+                                         Spacing="20"
+                                         VerticalOptions="Fill">
                                 <Label HorizontalTextAlignment="Start"
                                        Text="{Binding Name}"
                                        Margin="10"
                                        TextColor="White"
                                        FontFamily="Montserrat-Bold"
                                        FontSize="25"/>
-                                <StackLayout BindableLayout.ItemsSource="{Binding Plans}"
-                                             Spacing="20">
-                                    <BindableLayout.ItemTemplate>
+                                <CollectionView ItemsSource="{Binding Plans}"
+                                                SelectionMode="Single"
+                                                x:Name="collectionView"
+                                                SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectedPlan}">
+                                    <CollectionView.ItemTemplate>
                                         <DataTemplate x:DataType="models:Plan">
                                             <Border Grid.Row="1"
                                                     BackgroundColor="#181B3F"
-                                                    StrokeShape="RoundRectangle 25,25,25,25">
+                                                    StrokeShape="RoundRectangle 25,25,25,25"
+                                                    Margin="0, 0, 0, 20">
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup Name="CommonStates">
+                                                        <VisualState Name="Normal"></VisualState>
+                                                        <VisualState Name="Selected">
+                                                            <VisualState.Setters>
+                                                                <Setter Property="BackgroundColor" Value="#181B3F"></Setter>
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="2.5*"/>
@@ -59,8 +77,8 @@
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </StackLayout>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
                             </StackLayout>
                         </Border>
                     </DataTemplate>

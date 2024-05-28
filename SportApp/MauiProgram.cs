@@ -39,6 +39,7 @@ namespace SportApp
             mauiAppBuilder.Services.AddSingleton<PlansPageViewmodel>();
             mauiAppBuilder.Services.AddSingleton<AnalyticsPageViewmodel>();
             mauiAppBuilder.Services.AddSingleton<SettingsPageViewmodel>();
+            mauiAppBuilder.Services.AddSingleton<PlanViewViewmodel>();
             // More view-models registered here.
 
             return mauiAppBuilder;
@@ -55,6 +56,7 @@ namespace SportApp
             mauiAppBuilder.Services.AddSingleton<SettingsPage>();
             mauiAppBuilder.Services.AddSingleton<PlansPage>();
             mauiAppBuilder.Services.AddSingleton<AnalyticsPage>();
+            mauiAppBuilder.Services.AddSingleton<PlanViewPage>();
             // More views registered here.
 
             return mauiAppBuilder;
