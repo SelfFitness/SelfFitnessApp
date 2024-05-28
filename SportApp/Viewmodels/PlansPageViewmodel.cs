@@ -38,7 +38,9 @@ namespace SportApp.Viewmodels
                                             Url = "https://i.ytimg.com/vi/AGz3NnWPFd4/maxresdefault.jpg"
                                         },
                                     }
-                                ]
+                                ],
+                            Difficulty = 1,
+                            MaxDifficulty = 3,
                         },
                         new Plan()
                         {
@@ -56,7 +58,9 @@ namespace SportApp.Viewmodels
                                             Url = "https://i.ytimg.com/vi/AGz3NnWPFd4/maxresdefault.jpg"
                                         },
                                     }
-                                ]
+                                ],
+                            Difficulty = 2,
+                            MaxDifficulty = 3,
                         },
                         new Plan()
                         {
@@ -74,7 +78,9 @@ namespace SportApp.Viewmodels
                                             Url = "https://i.ytimg.com/vi/AGz3NnWPFd4/maxresdefault.jpg"
                                         },
                                     }
-                                ]
+                                ],
+                            Difficulty = 3,
+                            MaxDifficulty = 3,
                         },
                     ]
                 }
