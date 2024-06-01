@@ -24,15 +24,8 @@ namespace SportApp.Viewmodels
             get => _currentExersiceIndex;
             set
             {
-                try
-                {
-                    _currentExersiceIndex = value;
-                    OnPropertyChanged(nameof(CurrentExercise));
-                } 
-                catch
-                {
-
-                }
+                _currentExersiceIndex = value;
+                OnPropertyChanged(nameof(CurrentExercise));
             }
         }
 
@@ -40,14 +33,7 @@ namespace SportApp.Viewmodels
         {
             get
             {
-                try
-                {
-                    return _plan?.Exercises[CurrentExerciseIndex];
-                }
-                catch
-                {
-                    return null;
-                }
+                return _plan?.Exercises[CurrentExerciseIndex];
             }
         }
 
@@ -58,13 +44,14 @@ namespace SportApp.Viewmodels
 
         private Timer _timer;
 
-        public TrainPageViewmodel() 
+        public TrainPageViewmodel()
         {
         }
 
         [RelayCommand]
         private async Task GoBack()
         {
+            _timer?.Dispose();
             await Shell.Current.Navigation.PopToRootAsync();
         }
 
@@ -97,6 +84,7 @@ namespace SportApp.Viewmodels
             if (CurrentExerciseIndex == Plan.Exercises.Count() - 1)
             {
                 await Shell.Current.Navigation.PopToRootAsync();
+                return;
             }
             CurrentExerciseIndex += 1;
             await StartTimer();

@@ -15,25 +15,12 @@ namespace SportApp.Viewmodels
     {
         public ObservableCollection<PlanGroup> PlanGroups { get; set; }
 
-        private Plan _selectedItem;
+        [ObservableProperty]
+        private Plan _selectedPlan;
 
         private readonly PlanViewViewmodel _planViewViewmodel;
 
         private readonly Page _planViewPage;
-
-        public Plan SelectedPlan 
-        {
-            get => _selectedItem;
-            set
-            {
-                if (value != _selectedItem)
-                {
-                    _selectedItem = value;
-                    OnPropertyChanged(nameof(SelectedPlan));
-                    ShowPlan(SelectedPlan);
-                }
-            }
-        }
 
         public PlansPageViewmodel(PlanViewPage planView, PlanViewViewmodel planViewViewmodel)
         {
@@ -168,10 +155,12 @@ namespace SportApp.Viewmodels
             ];
         }
 
-        private async void ShowPlan(Plan plan)
+        [RelayCommand]
+        private async Task ShowPlan()
         {
-            _planViewViewmodel.Plan = plan;
+            _planViewViewmodel.Plan = SelectedPlan;
             await Shell.Current.Navigation.PushAsync(_planViewPage);
+            SelectedPlan = null;
         }
     }
 }
