@@ -13,7 +13,7 @@
                       ContentTemplate="{DataTemplate pages:PlansPage}" />
         <ShellContent Title="Analytics"
                       Icon="analytics.png"
-                      ContentTemplate="{DataTemplate pages:MainPage}" />
+                      ContentTemplate="{DataTemplate pages:AnalyticsPage}" />
         <ShellContent Title="Settings"
                       Icon="user.png"
                       ContentTemplate="{DataTemplate pages:SettingsPage}" />

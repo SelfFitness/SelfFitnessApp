@@ -5,11 +5,360 @@
              Title="AnalyticsPage"
              xmlns:vm="clr-namespace:SportApp.Viewmodels"
              x:DataType="vm:AnalyticsPageViewmodel"
+             xmlns:converters="clr-namespace:SportApp.Helpers.Converters"
+             xmlns:models="clr-namespace:SportApp.Models"
+             xmlns:controls="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar" 
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              Background="#0c0d21">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to Analytics"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ContentPage.Resources>
+        <Style x:Key="daysTitleLabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontFamily" Value="MontserratBold" />
+        </Style>
+    </ContentPage.Resources>
+    <ScrollView>
+        <VerticalStackLayout Padding="10"
+                             Spacing="10">
+            <Label Text="Статистика"
+                   FontFamily="MontserratBold"
+                   FontSize="25"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   Margin="13"/>
+            <Border BackgroundColor="#161833"
+                    Stroke="Transparent">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <controls:Calendar Events="{Binding Events}"
+                                   Culture="{Binding Culture}"
+                                   FooterSectionVisible="False"
+                                   ShowYearPicker="False"
+                                   CalendarLayout="Week"
+                                   ArrowsBackgroundColor="Transparent"
+                                   ArrowsBorderColor="Transparent"
+                                   ArrowsColor="#8f3fde"
+                                   SwipeToChangeMonthEnabled="True"
+                                   DaysTitleColor="White"
+                                   DaysTitleWeekendColor="#AE0000"
+                                   DaysTitleLabelStyle="{StaticResource daysTitleLabelStyle}"
+                                   DaysTitleHeight="20"
+                                   DeselectedDayTextColor="White"
+                                   SelectedDayTextColor="White"
+                                   EventIndicatorSelectedTextColor="White"
+                                   EventIndicatorTextColor="White"
+                                   SelectedTodayTextColor="White"
+                                   TodayTextColor="White"
+                                   TodayOutlineColor="#8f3fde"
+                                   EventIndicatorColor="#8000FF"
+                                   EventIndicatorSelectedColor="#8000FF"
+                                   SelectedDayBackgroundColor="#8f3fde"
+                                   MonthLabelColor="White"/>
+            </Border>
+            <Border BackgroundColor="#161833"
+                    Stroke="Transparent"
+                    Padding="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Вес"
+                           FontFamily="MontserratBold"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"/>
+                    <microcharts:ChartView Chart="{Binding Chart}"
+                                           HeightRequest="200"
+                                           BackgroundColor="Transparent"
+                                           Background="Transparent"/>
+                </VerticalStackLayout>
+            </Border>
+            <Border BackgroundColor="#161833"
+                    Stroke="Transparent"
+                    Padding="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="ИМТ"
+                           FontFamily="MontserratBold"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"/>
+                    <Grid HorizontalOptions="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <VerticalStackLayout Grid.Row="0"
+                                             Margin="{Binding ArrowMargin}"
+                                             HorizontalOptions="Start">
+                            <Label Text="{Binding BmiCoeff}"
+                                   x:Name="test"
+                                   FontFamily="MontserratRegular"
+                                   HorizontalTextAlignment="Center"
+                                   HorizontalOptions="CenterAndExpand"
+                                   VerticalOptions="End"
+                                   FontSize="15"/>
+                            <Label Text="▼"
+                                   Padding="0, -6, 0, 0"
+                                   FontSize="18"
+                                   HorizontalTextAlignment="Center"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontFamily="MontserratBold"/>
+                        </VerticalStackLayout>
+                        <Grid Grid.Row="1"
+                              WidthRequest="{Binding ProgressWidth}"
+                              HorizontalOptions="Start">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <VerticalStackLayout Grid.Column="0"
+                                                 Grid.Row="1"
+                                                 Spacing="4">
+                                <BoxView HeightRequest="5">
+                                    <BoxView.Background>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                             EndPoint="1,1">
+                                            <GradientStop Color="#0068F4"
+                                                          Offset="0.0" />
+                                            <GradientStop Color="#0B48B3"
+                                                           Offset="0.8" />
+                                            <GradientStop Color="#00F789"
+                                                          Offset="1" />
+                                        </LinearGradientBrush>
+                                    </BoxView.Background>
+                                </BoxView>
+                                <Grid HorizontalOptions="FillAndExpand">
+                                    <Label Text="15" 
+                                           HorizontalOptions="Start"
+                                           Margin="0, 0, -6, 0"
+                                           FontFamily="MontserratRegular"
+                                           FontSize="11"
+                                           TextColor="#B8B8B8"/>
+                                    <Label Text="16" 
+                                           HorizontalOptions="End"
+                                           Margin="0, 0, -6, 0"
+                                           FontFamily="MontserratRegular"
+                                           FontSize="11"
+                                           TextColor="#B8B8B8"/>
+                                </Grid>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Grid.Row="1"
+                                                 Spacing="4">
+                                <BoxView HeightRequest="5">
+                                    <BoxView.Background>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                             EndPoint="1,1">
+                                            <GradientStop Color="#00F789"
+                                                          Offset="0.0" />
+                                            <GradientStop Color="#02B602"
+                                                          Offset="0.8" />
+                                            <GradientStop Color="#E9FF00"
+                                                          Offset="1" />
+                                        </LinearGradientBrush>
+                                    </BoxView.Background>
+                                </BoxView>
+                                <Label Text="18.5" 
+                                       HorizontalOptions="EndAndExpand"
+                                       Margin="0, 0, -10, 0"
+                                       FontFamily="MontserratRegular"
+                                       FontSize="11"
+                                       TextColor="#B8B8B8"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="2"
+                                                 Grid.Row="1"
+                                                 Spacing="4">
+                                <BoxView HeightRequest="5">
+                                    <BoxView.Background>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                             EndPoint="1,1">
+                                            <GradientStop Color="#FAFF00"
+                                                          Offset="0.0" />
+                                            <GradientStop Color="#DE8307"
+                                                          Offset="0.8" />
+                                            <GradientStop Color="#FC5B84"
+                                                          Offset="1" />
+                                        </LinearGradientBrush>
+                                    </BoxView.Background>
+                                </BoxView>
+                                <Label Text="25" 
+                                       HorizontalOptions="EndAndExpand"
+                                       Margin="0, 0, -6, 0"
+                                       FontFamily="MontserratRegular"
+                                       FontSize="11"
+                                       TextColor="#B8B8B8"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="3"
+                                                 Grid.Row="1"
+                                                 Spacing="4">
+                                <BoxView HeightRequest="5">
+                                    <BoxView.Background>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                             EndPoint="1,1">
+                                            <GradientStop Color="#FF5782"
+                                                          Offset="0.0" />
+                                            <GradientStop Color="#FA0040"
+                                                          Offset="0.8" />
+                                            <GradientStop Color="#FC56B5"
+                                                          Offset="1" />
+                                        </LinearGradientBrush>
+                                    </BoxView.Background>
+                                </BoxView>
+                                <Label Text="30" 
+                                       HorizontalOptions="EndAndExpand"
+                                       Margin="0, 0, -6, 0"
+                                       FontFamily="MontserratRegular"
+                                       FontSize="11"
+                                       TextColor="#B8B8B8"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="4"
+                                                 Grid.Row="1"
+                                                 Spacing="4">
+                                <BoxView Grid.Column="4"
+                                         Grid.Row="1"
+                                         HeightRequest="5">
+                                    <BoxView.Background>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                 EndPoint="1,1">
+                                            <GradientStop Color="#FC56B5"
+                                                          Offset="0.0" />
+                                            <GradientStop Color="#9D0279"
+                                                          Offset="0.8" />
+                                            <GradientStop Color="#9D0838"
+                                                          Offset="1" />
+                                        </LinearGradientBrush>
+                                    </BoxView.Background>
+                                </BoxView>
+                                <Label Text="35" 
+                                       HorizontalOptions="EndAndExpand"
+                                       Margin="0, 0, -6, 0"
+                                       FontFamily="MontserratRegular"
+                                       FontSize="11"
+                                       TextColor="#B8B8B8"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="5"
+                                                 Grid.Row="1"
+                                                 Spacing="4">
+                                <BoxView HeightRequest="5">
+                                    <BoxView.Background>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                             EndPoint="1,1">
+                                            <GradientStop Color="#9D0838"
+                                                          Offset="0.0" />
+                                            <GradientStop Color="#BE000C"
+                                                          Offset="0.8" />
+                                            <GradientStop Color="#640000"
+                                                          Offset="1" />
+                                        </LinearGradientBrush>
+                                    </BoxView.Background>
+                                </BoxView>
+                                <Label Text="40" 
+                                       HorizontalOptions="EndAndExpand"
+                                       FontFamily="MontserratRegular"
+                                       FontSize="11"
+                                       TextColor="#B8B8B8"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+            <Border BackgroundColor="#161833"
+                    Stroke="Transparent"
+                    Padding="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Данные"
+                           FontFamily="MontserratBold"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"/>
+                    <HorizontalStackLayout HorizontalOptions="Center"
+                                           Spacing="5">
+                        <Label Text="20"
+                               FontSize="18"
+                               FontFamily="MontserratExtraBold"/>
+                        <Label Text="кг"
+                               FontSize="18"
+                               FontFamily="MontserratExtraBold"/>
+                    </HorizontalStackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Text="20 кг"
+                               Grid.Row="0"
+                               FontSize="10"
+                               Margin="15, 0, 0, 0"
+                               FontFamily="MontserratRegular"
+                               TextColor="#B8B8B8"/>
+                        <Label Text="200 кг"
+                               HorizontalTextAlignment="End"
+                               Grid.Row="0"
+                               FontSize="10"
+                               Margin="0, 0, 15, 0"
+                               FontFamily="MontserratRegular"
+                               TextColor="#B8B8B8"/>
+                        <Slider Minimum ="20"
+                                Grid.Row="1"
+                                Maximum="200"
+                                Value="30" 
+                                MinimumTrackColor="#8000FF" 
+                                MaximumTrackColor="#CD7AF4" 
+                                ThumbColor="#8000FF" />
+                    </Grid>
+                    <HorizontalStackLayout HorizontalOptions="Center"
+                                           Spacing="5">
+                        <Label Text="186"
+                               FontSize="18"
+                               FontFamily="MontserratExtraBold"/>
+                        <Label Text="см"
+                               FontSize="18"
+                               FontFamily="MontserratExtraBold"/>
+                    </HorizontalStackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Text="110 см"
+                               Padding="0"
+                               Grid.Row="0"
+                               FontSize="10"
+                               Margin="15, 0, 0, 0"
+                               FontFamily="MontserratRegular"
+                               TextColor="#B8B8B8"/>
+                        <Label Text="230 см"
+                               HorizontalTextAlignment="End"
+                               Grid.Row="0"
+                               Padding="0"
+                               FontSize="10"
+                               Margin="0, 0, 15, 0"
+                               FontFamily="MontserratRegular"
+                               TextColor="#B8B8B8"/>
+                        <Slider Minimum ="110"
+                                Grid.Row="1"
+                                Maximum="120"
+                                Value="30" 
+                                MinimumTrackColor="#8000FF" 
+                                MaximumTrackColor="#CD7AF4" 
+                                ThumbColor="#8000FF" />
+                    </Grid>
+                    <Button Text="Обновить данные"
+                            Style="{StaticResource PrimaryButton}"
+                            WidthRequest="200"/>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

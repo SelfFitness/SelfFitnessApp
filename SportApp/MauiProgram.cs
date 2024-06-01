@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using SportApp.Platforms.Android;
@@ -14,6 +15,7 @@ namespace SportApp
             => MauiApp.CreateBuilder()
                 .UseMauiApp<App>()
                 .UseSkiaSharp()
+                .UseMicrocharts()
                 .UseMauiCommunityToolkit()
                 .UseMauiCommunityToolkitMediaElement()
                 .RegisterServices()
