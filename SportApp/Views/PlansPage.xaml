@@ -10,81 +10,95 @@
              x:DataType="vm:PlansPageViewmodel"
              Background="#0c0d21"
              x:Name="plansPage">
-    <ScrollView>
-        <VerticalStackLayout>
-            <Label Text="Все программы" 
-                   Margin="20"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   FontSize="30"
-                   FontFamily="HelveticaRounded"
-                   TextColor="White"/>
-            <StackLayout BindableLayout.ItemsSource="{Binding PlanGroups}"
-                         Padding="20"
-                         Spacing="20">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="models:PlanGroup">
-                        <Border Stroke="#161833"
-                                StrokeThickness="2"
-                                StrokeShape="RoundRectangle 17,17,17,17"
-                                Background="#161833">
-                            <StackLayout Padding="10" 
-                                         Spacing="20"
-                                         VerticalOptions="Fill">
-                                <Label HorizontalTextAlignment="Start"
-                                       Text="{Binding Name}"
-                                       Margin="10"
-                                       TextColor="White"
-                                       FontFamily="Montserrat-Bold"
-                                       FontSize="25"/>
-                                <CollectionView ItemsSource="{Binding Plans}"
-                                                SelectionMode="Single"
-                                                x:Name="collectionView"
-                                                SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectedPlan}"
-                                                SelectionChangedCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ShowPlanCommand}">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:Plan">
-                                            <Border Grid.Row="1"
-                                                    BackgroundColor="#181B3F"
-                                                    StrokeShape="RoundRectangle 25,25,25,25"
-                                                    Margin="0, 0, 0, 20">
-                                                <VisualStateManager.VisualStateGroups>
-                                                    <VisualStateGroup Name="CommonStates">
-                                                        <VisualState Name="Normal"></VisualState>
-                                                        <VisualState Name="Selected">
-                                                            <VisualState.Setters>
-                                                                <Setter Property="BackgroundColor" Value="#181B3F"></Setter>
-                                                            </VisualState.Setters>
-                                                        </VisualState>
-                                                    </VisualStateGroup>
-                                                </VisualStateManager.VisualStateGroups>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="2.5*"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Label Text="{Binding Title}"
-                                                           Grid.Column="0"
-                                                           Margin="20"
-                                                           HorizontalTextAlignment="Start"
-                                                           FontSize="20"/>
-                                                    <helpers:DifficultyBar Grid.Column="1"
-                                                                           Min="{Binding Difficulty}"
-                                                                           Max="{Binding MaxDifficulty}"
-                                                                           FillColor="#971edf"
-                                                                           UnFillColor="#bbbbbb"
-                                                                           StrokeWidth="20"
-                                                                           StrokeImage="thingray.png"/>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </StackLayout>
-                        </Border>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </StackLayout>
-        </VerticalStackLayout>
-    </ScrollView>
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout>
+                <Label Text="Все программы" 
+                       Margin="20"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       FontSize="30"
+                       FontFamily="HelveticaRounded"
+                       TextColor="White"/>
+                <StackLayout BindableLayout.ItemsSource="{Binding PlanGroups}"
+                             Padding="20"
+                             Spacing="20">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:PlanGroup">
+                            <Border Stroke="#161833"
+                                    StrokeThickness="2"
+                                    StrokeShape="RoundRectangle 17,17,17,17"
+                                    Background="#161833">
+                                <StackLayout Padding="10" 
+                                             Spacing="20"
+                                             VerticalOptions="Fill">
+                                    <Label HorizontalTextAlignment="Start"
+                                           Text="{Binding Name}"
+                                           Margin="10"
+                                           TextColor="White"
+                                           FontFamily="Montserrat-Bold"
+                                           FontSize="25"/>
+                                    <CollectionView ItemsSource="{Binding Plans}"
+                                                    SelectionMode="Single"
+                                                    x:Name="collectionView"
+                                                    SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectedPlan}"
+                                                    SelectionChangedCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ShowPlanCommand}">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="models:Plan">
+                                                <Border Grid.Row="1"
+                                                        BackgroundColor="#181B3F"
+                                                        StrokeShape="RoundRectangle 25,25,25,25"
+                                                        Margin="0, 0, 0, 20">
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup Name="CommonStates">
+                                                            <VisualState Name="Normal"></VisualState>
+                                                            <VisualState Name="Selected">
+                                                                <VisualState.Setters>
+                                                                    <Setter Property="BackgroundColor" Value="#181B3F"></Setter>
+                                                                </VisualState.Setters>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="2.5*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Text="{Binding Title}"
+                                                               Grid.Column="0"
+                                                               Margin="20"
+                                                               HorizontalTextAlignment="Start"
+                                                               FontSize="20"/>
+                                                        <helpers:DifficultyBar Grid.Column="1"
+                                                                               Min="{Binding Difficulty}"
+                                                                               Max="{Binding MaxDifficulty}"
+                                                                               FillColor="#971edf"
+                                                                               UnFillColor="#bbbbbb"
+                                                                               StrokeWidth="20"
+                                                                               StrokeImage="thingray.png"/>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </StackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Button Text="+"
+                WidthRequest="65"
+                HeightRequest="65"
+                FontSize="30"
+                TextColor="White"
+                FontFamily="Montserrat"
+                CornerRadius="65"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="15"
+                Command="{Binding CreatePlanCommand}"
+                Style="{StaticResource PrimaryButton}"/>
+    </Grid>
 </ContentPage>

@@ -22,10 +22,15 @@ namespace SportApp.Viewmodels
 
         private readonly Page _planViewPage;
 
-        public PlansPageViewmodel(PlanViewPage planView, PlanViewViewmodel planViewViewmodel)
+        private readonly Page _createPlanPage;
+
+        public PlansPageViewmodel(PlanViewPage planView, 
+            PlanViewViewmodel planViewViewmodel,
+            CreatePlanPage createPlanPage)
         {
             _planViewViewmodel = planViewViewmodel;
             _planViewPage = planView;
+            _createPlanPage = createPlanPage;
             PlanGroups =
             [
                 new PlanGroup() 
@@ -161,6 +166,12 @@ namespace SportApp.Viewmodels
             _planViewViewmodel.Plan = SelectedPlan;
             await Shell.Current.Navigation.PushAsync(_planViewPage);
             SelectedPlan = null;
+        }
+
+        [RelayCommand]
+        private async Task CreatePlan()
+        {
+            await Shell.Current.Navigation.PushAsync(_createPlanPage);
         }
     }
 }

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SportApp.Viewmodels"
+             xmlns:models="clr-namespace:SportApp.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:enums="clr-namespace:SportApp.Models.Enums"
+             xmlns:converters="clr-namespace:SportApp.Helpers.Converters"
+             x:Class="SportApp.Views.CreatePlanPage"
+             x:DataType="vm:CreatePlanViewmodel"
+             Title="CreatePlanPage"
+             Background="#0c0d21">
+    <ContentPage.Resources>
+        <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
+        <toolkit:IsEqualConverter x:Key="IsEqualConverter" />
+        <converters:IntToStringConverter x:Key="IntToStringConverter"/>
+        <converters:IntToTimespanConverter x:Key="IntToTimespanConverter"/>
+        <converters:ZeroToNullConverter x:Key="ZeroToNullConverter"/>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+            <RowDefinition Height="1.1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0"
+               Text="Создать план"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               FontFamily="HelveticaRounded"
+               FontAttributes="Bold"
+               TextColor="White"
+               FontSize="25"/>
+        <CollectionView ItemsSource="{Binding ExerciseParts}" 
+                        HorizontalOptions="CenterAndExpand"
+                        Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ObservableExercisePart">
+                    <VerticalStackLayout>
+                        <Grid Margin="0, 10, 0, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.75*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0"
+                                   HorizontalOptions="CenterAndExpand"
+                                   VerticalOptions="Center"
+                                   Aspect="AspectFill"
+                                   WidthRequest="80"
+                                   HeightRequest="60"
+                                   Source="{Binding Exercise.Url, Mode=OneTime}">
+                                <Image.Clip>
+                                    <RoundRectangleGeometry Rect="0, 0, 80, 60" CornerRadius="10"/>
+                                </Image.Clip>
+                            </Image>
+                            <Grid Grid.Column="1"
+                                  VerticalOptions="Center"
+                                  HorizontalOptions="Start">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="{Binding Exercise.Title}"
+                                       HorizontalTextAlignment="Start"
+                                       TextColor="White"
+                                       FontFamily="MontserratBold"
+                                       FontSize="14"
+                                       Grid.Row="0"
+                                       VerticalTextAlignment="Center"/>
+                                <HorizontalStackLayout VerticalOptions="Center"
+                                                   HorizontalOptions="Start"
+                                                   Grid.Row="1">
+                                    <Label Text="x"
+                                           IsVisible="{Binding Count, Converter={StaticResource IsNotNullConverter}}"
+                                           FontFamily="MontserratRegular"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalTextAlignment="Center"
+                                           TextColor="White"
+                                           FontSize="12"/>
+                                    <Label Text="{Binding Count, Converter={StaticResource IntToStringConverter}}"
+                                           FontFamily="MontserratRegular"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="White"
+                                           HorizontalTextAlignment="Center"
+                                           FontSize="12"/>
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding Duration}"
+                                       FontFamily="MontserratRegular"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalTextAlignment="Start"
+                                       Grid.Row="1"
+                                       TextColor="White"
+                                       FontSize="12"/>
+                            </Grid>
+                            <Stepper Minimum="0" 
+                                     Grid.Column="2"
+                                     HorizontalOptions="CenterAndExpand"
+                                     Maximum="10000"
+                                     VerticalOptions="Center"
+                                     Increment="1"
+                                     WidthRequest="80"
+                                     IsVisible="{Binding ExerciseType, Converter={StaticResource IsEqualConverter}, ConverterParameter={x:Static enums:ExerciseType.Count}}"
+                                     Value="{Binding Count, Converter={StaticResource ZeroToNullConverter}}">
+                            </Stepper>
+                            <Stepper Minimum="0"
+                                     Grid.Column="2"
+                                     HorizontalOptions="CenterAndExpand"
+                                     Maximum="10000"
+                                     VerticalOptions="Center"
+                                     IsVisible="{Binding ExerciseType, Converter={StaticResource IsEqualConverter}, ConverterParameter={x:Static enums:ExerciseType.Time}}"
+                                     Increment="15"
+                                     WidthRequest="80"
+                                     Value="{Binding Duration, Converter={StaticResource IntToTimespanConverter}}"/>
+                        </Grid>
+                        <BoxView HeightRequest="1"
+                                 Grid.ColumnSpan="3"
+                                 Margin="0, 10, 0, 0"
+                                 VerticalOptions="End"
+                                 Color="#131534"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Сохранить"
+                Style="{StaticResource PrimaryButton}"
+                Command="{Binding CreatePlanCommand}"
+                Grid.Row="2"
+                Margin="10"/>
+    </Grid>
+</ContentPage>
