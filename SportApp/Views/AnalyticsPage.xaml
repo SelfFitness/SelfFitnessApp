@@ -284,7 +284,7 @@
                            VerticalTextAlignment="Center"/>
                     <HorizontalStackLayout HorizontalOptions="Center"
                                            Spacing="5">
-                        <Label Text="20"
+                        <Label Text="{Binding Weigth}"
                                FontSize="18"
                                FontFamily="MontserratExtraBold"/>
                         <Label Text="кг"
@@ -312,14 +312,14 @@
                         <Slider Minimum ="20"
                                 Grid.Row="1"
                                 Maximum="200"
-                                Value="30" 
+                                Value="{Binding Weigth}"
                                 MinimumTrackColor="#8000FF" 
                                 MaximumTrackColor="#CD7AF4" 
                                 ThumbColor="#8000FF" />
                     </Grid>
                     <HorizontalStackLayout HorizontalOptions="Center"
                                            Spacing="5">
-                        <Label Text="186"
+                        <Label Text="{Binding Heigth}"
                                FontSize="18"
                                FontFamily="MontserratExtraBold"/>
                         <Label Text="см"
@@ -348,13 +348,14 @@
                                TextColor="#B8B8B8"/>
                         <Slider Minimum ="110"
                                 Grid.Row="1"
-                                Maximum="120"
-                                Value="30" 
+                                Maximum="220"
+                                Value="{Binding Heigth}" 
                                 MinimumTrackColor="#8000FF" 
                                 MaximumTrackColor="#CD7AF4" 
                                 ThumbColor="#8000FF" />
                     </Grid>
                     <Button Text="Обновить данные"
+                            Command="{Binding UpdateParamsCommand}"
                             Style="{StaticResource PrimaryButton}"
                             WidthRequest="200"/>
                 </VerticalStackLayout>

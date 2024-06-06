@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Maui;
+using Java.Security;
 using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using SportApp.Abstractions;
+using SportApp.Impls;
 using SportApp.Platforms.Android;
 using SportApp.Viewmodels;
 using SportApp.Views;
@@ -28,13 +31,26 @@ namespace SportApp
         public static MauiAppBuilder RegisterServices(this MauiAppBuilder mauiAppBuilder)
         {
             // More services registered here.
+            var token = SecureStorage.Default.GetAsync("token").GetAwaiter().GetResult();
+            using (var client = new ClientApi())
+            {
+                var isValid = client.Check(token);
 
+                if (token != null && isValid)
+                {
+                    mauiAppBuilder.Services.AddSingleton<IClientApi, ClientApi>(provider => new ClientApi(token));
+                }
+                else
+                {
+                    SecureStorage.Default.Remove("token");
+                    mauiAppBuilder.Services.AddSingleton<IClientApi, ClientApi>();
+                }
+            }
             return mauiAppBuilder;
         }
 
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
         {
-
             mauiAppBuilder.Services.AddSingleton<MainPageViewmodel>();
             mauiAppBuilder.Services.AddSingleton<LoginPageViewmodel>();
             mauiAppBuilder.Services.AddSingleton<WelcomePageViewmodel>();

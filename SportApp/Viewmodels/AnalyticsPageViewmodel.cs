@@ -1,8 +1,10 @@
 ﻿using Android.Mtp;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microcharts;
 using Plugin.Maui.Calendar.Models;
 using SkiaSharp;
+using SportApp.Abstractions;
 using SportApp.Models;
 using System.Globalization;
 
@@ -28,7 +30,8 @@ namespace SportApp.Viewmodels
 
         const int cellCount = 6;
 
-        public EventCollection Events { get; set; }
+        [ObservableProperty]
+        public EventCollection _events;
 
         [ObservableProperty]
         private CultureInfo _culture;
@@ -45,85 +48,100 @@ namespace SportApp.Viewmodels
         [ObservableProperty]
         private double _bmiCoeff;
 
-        public AnalyticsPageViewmodel()
+        private double _weigth;
+
+        public double Weigth
         {
-            Events = new EventCollection
+            get => _weigth;
+            set
             {
-                [DateTime.Now.AddDays(-3)] = new List<ExercisePart>
-                {
-                    new ExercisePart(),
-                },
-            };
+                _weigth = Math.Round(value, 1);
+                OnPropertyChanged(nameof(Weigth));
+            }
+        }
+
+        private double _heigth;
+
+        public double Heigth
+        {
+            get => _heigth;
+            set
+            {
+                _heigth = Math.Round(value, 1);
+                OnPropertyChanged(nameof(Heigth));
+            }
+        }
+
+        private readonly IClientApi _clientApi;
+
+        public AnalyticsPageViewmodel(IClientApi clientApi)
+        {
+            Events = new EventCollection();
+            _clientApi = clientApi;
             Culture = CultureInfo.CurrentCulture;
-            Chart = new LineChart()
-            {
-                Entries =
-                [
-                    new ChartEntry(80) {
-                        Color = SKColor.Parse("#8000FF"),
-                        ValueLabel = "80",
-                        Label = "80",
-                        ValueLabelColor = SKColor.Parse("#fff"),
-                    },
-                    new ChartEntry(90) {
-                        Color = SKColor.Parse("#8000FF"),
-                        ValueLabel = "90",
-                        Label = "90",
-                        ValueLabelColor = SKColor.Parse("#fff"),
-                    },
-                    new ChartEntry(100) {
-                        Color = SKColor.Parse("#8000FF"),
-                        ValueLabel = "100",
-                        Label = "100",
-                        ValueLabelColor = SKColor.Parse("#fff"),
-                    },
-                    new ChartEntry(110) {
-                        Color = SKColor.Parse("#8000FF"),
-                        ValueLabel = "110",
-                        Label = "110",
-                        ValueLabelColor = SKColor.Parse("#fff"),
-                    },
-                    new ChartEntry(80) {
-                        Color = SKColor.Parse("#8000FF"),
-                        ValueLabel = "80",
-                        Label = "80",
-                        ValueLabelColor = SKColor.Parse("#fff"),
-                    },
-                    new ChartEntry(70) {
-                        Color = SKColor.Parse("#8000FF"),
-                        ValueLabel = "70",
-                        Label = "70",
-                        ValueLabelColor = SKColor.Parse("#fff"),
-                    },
-                    new ChartEntry(110) {
-                        Color = SKColor.Parse("#8000FF"),
-                        ValueLabel = "110",
-                        Label = "110",
-                        ValueLabelColor = SKColor.Parse("#fff"),
-                    },
-                    new ChartEntry(80) {
-                        Color = SKColor.Parse("#8000FF"),
-                        ValueLabel = "80",
-                        Label = "80",
-                        ValueLabelColor = SKColor.Parse("#fff"),
-                    },
-                    new ChartEntry(70) {
-                        Color = SKColor.Parse("#8000FF"),
-                        ValueLabel = "70",
-                        Label = "70",
-                        ValueLabelColor = SKColor.Parse("#fff"),
-                    },
-                ],
-                BackgroundColor = SKColor.Parse("#161833"),
-                ValueLabelOrientation = Orientation.Horizontal,
-                ValueLabelTextSize = 25,
-                LabelTextSize = 30,
-                LabelOrientation = Orientation.Horizontal,
-                IsAnimated = true,
-                ValueLabelOption = ValueLabelOption.TopOfElement,
-            };
             ProgressWidth = 280;
-            SetBmi(16);
+            Task.Run(UpdateStats);
+        }
+
+        public async Task UpdateStats()
+        {
+            await UpdateTrainHistory();
+            await UpdateWeigthHistory();
+            await UpdateUserStats();
+        }
+
+        public async Task UpdateTrainHistory()
+        {
+            var trainHistory = await _clientApi.GetTrainHistory();
+            if (trainHistory != null && trainHistory.Any())
+            {
+                var events = new EventCollection();
+                foreach (var train in trainHistory)
+                {
+                    events.Add(train.Date.ToLocalTime(), new List<ExercisePart> { new ExercisePart() });
+                }
+                Events = events;
+            }
+        }
+
+        public async Task UpdateWeigthHistory()
+        {
+            var weigthHistory = await _clientApi.GetWeigthHistory();
+            if (weigthHistory != null && weigthHistory.Any())
+            {
+                var chart = new LineChart()
+                {
+                    BackgroundColor = SKColor.Parse("#161833"),
+                    ValueLabelOrientation = Orientation.Horizontal,
+                    ValueLabelTextSize = 25,
+                    LabelTextSize = 30,
+                    LabelOrientation = Orientation.Horizontal,
+                    IsAnimated = true,
+                    ValueLabelOption = ValueLabelOption.TopOfElement,
+                };
+                var chartEntries = new List<ChartEntry>();
+
+                foreach (var weigth in weigthHistory)
+                {
+                    chartEntries.Add(new ChartEntry(Convert.ToSingle(weigth.Weigth))
+                    {
+                        Color = SKColor.Parse("#8000FF"),
+                        ValueLabel = weigth.Weigth.ToString(),
+                        Label = weigth.Weigth.ToString(),
+                        ValueLabelColor = SKColor.Parse("#fff"),
+                    });
+                }
+                chart.Entries = chartEntries;
+                Chart = chart;
+            }
+        }
+
+        private async Task UpdateUserStats()
+        {
+            var stats = await _clientApi.GetUserStats();
+            Weigth = stats.Weigth.GetValueOrDefault();
+            Heigth = stats.Heigth.GetValueOrDefault();
+            SetBmi(stats.Bmi.GetValueOrDefault());
         }
 
         public void SetBmi(double coeff)
@@ -189,6 +207,13 @@ namespace SportApp.Viewmodels
                 ArrowMargin = new Thickness(margin, 0, 0, 0);
                 return;
             }
+        }
+
+        [RelayCommand]
+        private async Task UpdateParams()
+        {
+            await _clientApi.SetParams(Weigth, Heigth);
+            await UpdateStats();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SportApp.Abstractions;
 using SportApp.Views;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,21 @@ namespace SportApp.Viewmodels
     {
         private readonly Page _mainPage;
 
-        private bool _isChecked;
-
+        [ObservableProperty]
         private string _email;
 
+        [ObservableProperty]
         private string _password;
 
         [ObservableProperty]
         private string _errorMessage;
 
-        public RegisterPageViewmodel(MainPage mainPage) 
+        private readonly IClientApi _clientApi;
+
+        public RegisterPageViewmodel(MainPage mainPage, IClientApi clientApi) 
         {
             _mainPage = mainPage;
+            _clientApi = clientApi;
         }
 
         [RelayCommand]
@@ -43,15 +47,15 @@ namespace SportApp.Viewmodels
 
         private async Task Register(CancellationTokenSource cts)
         {
-            await Task.Delay(1500);
-            if (!_isChecked)
+            try
             {
-                _isChecked = true;
-                ErrorMessage = "Ошибка при выполнении!";
-                await cts.CancelAsync();
-                return;
+                var token = await _clientApi.Register(Email, Password);
+                await Shell.Current.GoToAsync("//tabs");
             }
-            await Shell.Current.GoToAsync("//tabs");
+            catch(Exception ex)
+            {
+                ErrorMessage = "Не удалось выполнить запрос";
+            }
             await cts.CancelAsync();
         }
     }

@@ -5,6 +5,7 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SportApp.Abstractions;
 using SportApp.Views;
 using System;
 using System.Collections.Generic;
@@ -18,13 +19,19 @@ namespace SportApp.Viewmodels
     public partial class LoginPageViewmodel : ObservableObject
     {
         [ObservableProperty]
+        private string _email;
+
+        [ObservableProperty]
+        private string _password;
+
+        [ObservableProperty]
         private bool _isInvlalidCredentials;
 
-        private bool _isChecked;
+        private readonly IClientApi _clientApi;
 
-        public LoginPageViewmodel()
+        public LoginPageViewmodel(IClientApi clientApi)
         {
-            _isChecked = false;
+            _clientApi = clientApi;
         }
 
         [RelayCommand]
@@ -42,15 +49,15 @@ namespace SportApp.Viewmodels
 
         private async Task CheckCredentials(CancellationTokenSource cts)
         {
-            await Task.Delay(1500);
-            if (!_isChecked)
+            try
             {
-                _isChecked = true;
-                IsInvlalidCredentials = true;
-                await cts.CancelAsync();
-                return;
+                var token = await _clientApi.Login(Email, Password);
+                await Shell.Current.GoToAsync("//tabs");
             }
-            await Shell.Current.GoToAsync("//tabs");
+            catch
+            {
+                IsInvlalidCredentials = true;
+            }
             await cts.CancelAsync();
         }
     }

@@ -67,7 +67,8 @@
                                 </Image>
                                 <Entry TextColor="White"
                                        Placeholder="Введите ваш email"
-                                       x:Name="emailEntry">
+                                       x:Name="emailEntry"
+                                       Text="{Binding Email}">
                                     <Entry.Behaviors>
                                         <toolkit:EmailValidationBehavior 
                                                 x:Name="emailValidation"
@@ -94,6 +95,7 @@
                                 <Entry TextColor="White"
                                        IsPassword="True"
                                        x:Name="passwordEntry"
+                                       Text="{Binding Password}"
                                        Placeholder="Введите пароль">
                                 </Entry>
                             </HorizontalStackLayout>

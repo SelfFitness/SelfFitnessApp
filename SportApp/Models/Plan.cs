@@ -18,6 +18,6 @@ namespace SportApp.Models
 
         public int MaxDifficulty { get; set; } 
 
-        public IList<ExercisePart> Exercises { get; set; }
+        public IList<ExercisePart> ExerciseParts { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using AndroidX.Navigation;
 #endif
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SportApp.Abstractions;
 using SportApp.Views;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,19 @@ namespace SportApp.Viewmodels
 
         private readonly Page _registerPage;
 
-        public WelcomePageViewmodel(LoginPage loginPage, RegisterPage registerPage) 
+        public WelcomePageViewmodel(LoginPage loginPage, RegisterPage registerPage, IClientApi clientApi) 
         {
             _loginPage = loginPage;
             _registerPage = registerPage;
+            if (clientApi.IsAuthentificated)
+            {
+                GoToMainPage();
+            }
+        }
+
+        private async Task GoToMainPage()
+        {
+            await Shell.Current.GoToAsync("//tabs");
         }
 
         [RelayCommand]

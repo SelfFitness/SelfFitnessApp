@@ -37,7 +37,7 @@
                    FontSize="14"
                    VerticalOptions="Center"/>
         </Grid>
-        <CollectionView ItemsSource="{Binding Plan.Exercises, Mode=OneWay}"
+        <CollectionView ItemsSource="{Binding Plan.ExerciseParts, Mode=OneWay}"
                         Grid.Row="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate>

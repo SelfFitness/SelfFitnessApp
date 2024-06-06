@@ -53,7 +53,8 @@
                                     </Image.Behaviors>
                                 </Image>
                                 <Entry TextColor="White"
-                                       Placeholder="Введите ваш email"/>
+                                       Placeholder="Введите ваш email"
+                                       Text="{Binding Email}"/>
 
 
                             </HorizontalStackLayout>
@@ -73,6 +74,7 @@
                                 </Image>
                                 <Entry TextColor="White" 
                                        IsPassword="True"
+                                       Text="{Binding Password}"
                                        Placeholder="Введите пароль"/>
                             </HorizontalStackLayout>
                         </Border>

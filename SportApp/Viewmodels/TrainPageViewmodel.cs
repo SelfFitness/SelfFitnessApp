@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SportApp.Abstractions;
 using SportApp.Models;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace SportApp.Viewmodels
         {
             get
             {
-                return _plan?.Exercises[CurrentExerciseIndex];
+                return _plan?.ExerciseParts[CurrentExerciseIndex];
             }
         }
 
@@ -44,8 +45,14 @@ namespace SportApp.Viewmodels
 
         private Timer _timer;
 
-        public TrainPageViewmodel()
+        private readonly AnalyticsPageViewmodel _analyticsViewmodel;
+
+        private readonly IClientApi _clientApi;
+
+        public TrainPageViewmodel(AnalyticsPageViewmodel analyticsPageVm, IClientApi clientApi)
         {
+            _analyticsViewmodel = analyticsPageVm;
+            _clientApi = clientApi;
         }
 
         [RelayCommand]
@@ -81,8 +88,10 @@ namespace SportApp.Viewmodels
         private async Task Next()
         {
             _timer?.Dispose();
-            if (CurrentExerciseIndex == Plan.Exercises.Count() - 1)
+            if (CurrentExerciseIndex == Plan.ExerciseParts.Count() - 1)
             {
+                await _clientApi.SaveTrain(Plan.Id);
+                await _analyticsViewmodel.UpdateTrainHistory();
                 await Shell.Current.Navigation.PopToRootAsync();
                 return;
             }
