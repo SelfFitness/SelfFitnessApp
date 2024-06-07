@@ -1,26 +1,13 @@
-﻿using Android.Mtp;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microcharts;
+using Plugin.Maui.Calendar.Models;
 using SkiaSharp;
 using SportApp.Abstractions;
-using SportApp.Models;
-using System.Collections.Specialized;
 using System.Globalization;
-using XCalendar.Core.Extensions;
-using XCalendar.Core.Interfaces;
-using XCalendar.Core.Models;
-using XCalendar.Maui.Models;
 
 namespace SportApp.Viewmodels
 {
-    public class ColoredEventsDay : ColoredEventsDay<ColoredEvent>
-    {
-    }
-    public class ColoredEventsDay<TEvent> : CalendarDay<TEvent> where TEvent : IEvent
-    {
-    }
-
     public partial class AnalyticsPageViewmodel : ObservableObject
     {
         const double arrowSize = 12;
@@ -42,7 +29,7 @@ namespace SportApp.Viewmodels
         const int cellCount = 6;
 
         [ObservableProperty]
-        private Calendar<CalendarDay<IEvent>, IEvent> _eventCalendar;
+        private EventCollection _events;
 
         [ObservableProperty]
         private CultureInfo _culture;
@@ -87,24 +74,11 @@ namespace SportApp.Viewmodels
 
         public AnalyticsPageViewmodel(IClientApi clientApi)
         {
-            EventCalendar = new Calendar<CalendarDay<IEvent>, IEvent>();
+            Events = new EventCollection();
             _clientApi = clientApi;
             Culture = CultureInfo.CurrentCulture;
             ProgressWidth = 280;
             Task.Run(UpdateStats);
-        }
-
-        [RelayCommand]
-        private void NavigateCalendar(int amount)
-        {
-            if (EventCalendar.NavigatedDate.TryAddMonths(amount, out DateTime targetDate))
-            {
-                EventCalendar.Navigate(targetDate - EventCalendar.NavigatedDate);
-            }
-            else
-            {
-                EventCalendar.Navigate(amount > 0 ? TimeSpan.MaxValue : TimeSpan.MinValue);
-            }
         }
 
         public async Task UpdateStats()
@@ -119,16 +93,15 @@ namespace SportApp.Viewmodels
             var trainHistory = await _clientApi.GetTrainHistory();
             if (trainHistory != null && trainHistory.Any())
             {
-                var events = new List<IEvent>();
-                foreach (var train in trainHistory)
+                var trains = trainHistory.GroupBy(x => x.Date.Date)
+                    .Select(y => y.First())
+                    .ToList();
+                var events = new EventCollection();
+                foreach (var train in trains)
                 {
-                    events.Add(new Event()
-                    {
-                        StartDate = train.Date.ToLocalTime().AddDays(-1),
-                        EndDate = train.Date.ToLocalTime(),
-                    });
+                    events.Add(train.Date.ToLocalTime(), new List<object> { new object() });
                 }
-                EventCalendar.Events.ReplaceRange(events);
+                Events = events;
             }
         }
 

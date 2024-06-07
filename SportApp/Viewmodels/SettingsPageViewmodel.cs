@@ -19,8 +19,11 @@ namespace SportApp.Viewmodels
         [RelayCommand]
         private async Task Exit()
         {
-            SecureStorage.Default.Remove("token");
-            Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+            SecureStorage.Default.RemoveAll();
+            await Task.Delay(1000).ContinueWith(x =>
+            {
+                Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+            });
         }
     }
 }
