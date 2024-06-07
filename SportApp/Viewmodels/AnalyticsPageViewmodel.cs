@@ -133,6 +133,20 @@ namespace SportApp.Viewmodels
                         ValueLabelColor = SKColor.Parse("#fff"),
                     });
                 }
+                try
+                {
+                    var predictWeigth = await _clientApi.GetPredictWeigth();
+                    if (predictWeigth != null)
+                    {
+                        chartEntries.Add(new ChartEntry(Convert.ToSingle(predictWeigth.Weigth))
+                        {
+                            Color = SKColor.Parse("#00FF3C"),
+                            ValueLabel = predictWeigth.Weigth.ToString(),
+                            Label = predictWeigth.Weigth.ToString(),
+                            ValueLabelColor = SKColor.Parse("#00FF3C"),
+                        });
+                    }
+                } catch { }
                 chart.Entries = chartEntries;
                 Chart = chart;
             }

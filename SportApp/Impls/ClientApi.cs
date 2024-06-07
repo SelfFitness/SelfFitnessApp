@@ -118,6 +118,12 @@ namespace SportApp.Impls
             return exercices;
         }
 
+        public async Task<WeigthHistory?> GetPredictWeigth()
+        {
+            var predictWeigth = await _client.GetFromJsonAsync<WeigthHistory?>($"{BaseUrl}/userapi/predictweigth");
+            return predictWeigth;
+        }
+
         public void Dispose()
         {
             _client?.Dispose();

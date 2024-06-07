@@ -27,6 +27,8 @@ namespace SportApp.Abstractions
 
         Task<IEnumerable<ExercisePart>> GetExercises();
 
+        Task<WeigthHistory?> GetPredictWeigth();
+
         Task SaveTrain(int planId);
 
         bool Check(string token);

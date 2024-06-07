@@ -121,7 +121,6 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
                             <VerticalStackLayout Grid.Column="0"
                                                  Grid.Row="1"
                                                  Spacing="4">
@@ -348,6 +347,7 @@
                             </ImageButton>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
+                    
                     <Button Text="Обновить данные"
                             Command="{Binding UpdateParamsCommand}"
                             Style="{StaticResource PrimaryButton}"
