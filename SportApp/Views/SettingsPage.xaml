@@ -84,6 +84,7 @@
                              Spacing="10">
             <Button Text="Выйти"
                     FontFamily="MontserratBold"
+                    Command="{Binding ExitCommand}"
                     FontSize="15"
                     TextColor="White"
                     BackgroundColor="Transparent"/>
