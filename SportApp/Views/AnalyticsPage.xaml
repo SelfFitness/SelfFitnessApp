@@ -7,7 +7,8 @@
              x:DataType="vm:AnalyticsPageViewmodel"
              xmlns:converters="clr-namespace:SportApp.Helpers.Converters"
              xmlns:models="clr-namespace:SportApp.Models"
-             xmlns:controls="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar" 
+             xmlns:xc="clr-namespace:XCalendar.Maui.Views;assembly=XCalendar.Maui"
+             xmlns:xcConverters="clr-namespace:XCalendar.Maui.Converters;assembly=XCalendar.Maui"
              xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              Background="#0c0d21">
     <ContentPage.Resources>
@@ -15,6 +16,7 @@
             <Setter Property="FontSize" Value="14" />
             <Setter Property="FontFamily" Value="MontserratBold" />
         </Style>
+        <converters:DayNameConverter x:Key="DayNameConverter"/>
     </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout Padding="10"
@@ -26,34 +28,72 @@
                    VerticalTextAlignment="Center"
                    Margin="13"/>
             <Border BackgroundColor="#161833"
-                    Stroke="Transparent">
+                    Stroke="Transparent"
+                    Padding="10">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="20" />
                 </Border.StrokeShape>
-                <controls:Calendar Events="{Binding Events}"
-                                   Culture="{Binding Culture}"
-                                   FooterSectionVisible="False"
-                                   ShowYearPicker="False"
-                                   CalendarLayout="Week"
-                                   ArrowsBackgroundColor="Transparent"
-                                   ArrowsBorderColor="Transparent"
-                                   ArrowsColor="#8f3fde"
-                                   SwipeToChangeMonthEnabled="True"
-                                   DaysTitleColor="White"
-                                   DaysTitleWeekendColor="#AE0000"
-                                   DaysTitleLabelStyle="{StaticResource daysTitleLabelStyle}"
-                                   DaysTitleHeight="20"
-                                   DeselectedDayTextColor="White"
-                                   SelectedDayTextColor="White"
-                                   EventIndicatorSelectedTextColor="White"
-                                   EventIndicatorTextColor="White"
-                                   SelectedTodayTextColor="White"
-                                   TodayTextColor="White"
-                                   TodayOutlineColor="#8f3fde"
-                                   EventIndicatorColor="#8000FF"
-                                   EventIndicatorSelectedColor="#8000FF"
-                                   SelectedDayBackgroundColor="#8f3fde"
-                                   MonthLabelColor="White"/>
+                <xc:CalendarView x:Name="MainCalendarView"
+                    Days="{Binding EventCalendar.Days}"
+                    DaysOfWeek="{Binding EventCalendar.DayNamesOrder}"
+                    LeftArrowCommand="{Binding NavigateCalendarCommand}"
+                    NavigatedDate="{Binding EventCalendar.NavigatedDate}"
+                    RightArrowCommand="{Binding NavigateCalendarCommand}">
+
+                    <xc:CalendarView.RightArrowCommandParameter>
+                        <x:Int32>1</x:Int32>
+                    </xc:CalendarView.RightArrowCommandParameter>
+
+                    <xc:CalendarView.LeftArrowCommandParameter>
+                        <x:Int32>-1</x:Int32>
+                    </xc:CalendarView.LeftArrowCommandParameter>
+                    
+                    <xc:CalendarView.NavigationViewTemplate>
+                        <ControlTemplate>
+                            <xc:NavigationView
+                                ArrowColor="White"
+                                HeightRequest="40"
+                                BackgroundColor="Transparent"
+                                LeftArrowCommand="{Binding LeftArrowCommand, Source={RelativeSource TemplatedParent}}"
+                                LeftArrowCommandParameter="{Binding LeftArrowCommandParameter, Source={RelativeSource TemplatedParent}}"
+                                RightArrowCommand="{Binding RightArrowCommand, Source={RelativeSource TemplatedParent}}"
+                                RightArrowCommandParameter="{Binding RightArrowCommandParameter, Source={RelativeSource TemplatedParent}}"
+                                Text="{Binding Text, Source={RelativeSource TemplatedParent}}"
+                                TextColor="White"/>
+                        </ControlTemplate>
+                    </xc:CalendarView.NavigationViewTemplate>
+
+                    <xc:CalendarView.DayNameTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding ., Converter={StaticResource DayNameConverter}}"
+                                   TextColor="White"
+                                   FontSize="15"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   FontFamily="MontserratBold"/>
+                        </DataTemplate>
+                    </xc:CalendarView.DayNameTemplate>
+                    <xc:CalendarView.DayTemplate>
+                        <DataTemplate x:DataType="{x:Null}">
+                            <Border Stroke="Transparent" BackgroundColor="Transparent">
+                                <xc:DayView
+                                    DateTime="{Binding DateTime}"
+                                    Events="{Binding Events}"
+                                    IsCurrentMonth="{Binding IsCurrentMonth}"
+                                    IsSelected="{Binding IsSelected}"
+                                    IsToday="{Binding IsToday}"
+                                    CurrentMonthStyle="{StaticResource DefaultDayViewCurrentMonthStyle}"
+                                    OtherMonthStyle="{StaticResource DefaultDayViewOtherMonthStyle}">
+                                    <xc:DayView.EventTemplate>
+                                        <DataTemplate x:DataType="{x:Null}">
+                                            <Rectangle Style="{StaticResource DefaultEventIndicatorRectangleStyle}"/>
+                                        </DataTemplate>
+                                    </xc:DayView.EventTemplate>
+                                </xc:DayView>
+                            </Border>
+                        </DataTemplate>
+                    </xc:CalendarView.DayTemplate>
+                </xc:CalendarView>
             </Border>
             <Border BackgroundColor="#161833"
                     Stroke="Transparent"
