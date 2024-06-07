@@ -2,31 +2,7 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:Styles="clr-namespace:XCalendar.Maui.Styles;assembly=XCalendar.Maui"
-    xmlns:xc="clr-namespace:XCalendar.Maui.Views;assembly=XCalendar.Maui">
-
-    <Style x:Key="DefaultDayViewCurrentMonthStyle"
-           BasedOn="{x:Static Styles:DefaultStyles.DefaultDayViewCurrentMonthStyle}"
-           TargetType="{x:Type xc:DayView}">
-        <Setter Property="TextColor" Value="White"/>
-    </Style>
-
-    <Style x:Key="DefaultDayViewOtherMonthStyle"
-           BasedOn="{x:Static Styles:DefaultStyles.DefaultDayViewOtherMonthStyle}"
-           TargetType="{x:Type xc:DayView}">
-        <Setter Property="TextColor" Value="#ABA7A7"/>
-    </Style>
-
-    <Style x:Key="DefaultEventIndicatorRectangleStyle" TargetType="{x:Type Rectangle}">
-        <Setter Property="Fill" Value="#8f3fde"/>
-        <Setter Property="HeightRequest" Value="8"/>
-        <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-        <Setter Property="RadiusX" Value="100"/>
-        <Setter Property="RadiusY" Value="100"/>
-        <Setter Property="VerticalOptions" Value="Center"/>
-        <Setter Property="WidthRequest" Value="8"/>
-    </Style>
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <Style TargetType="TabBar" ApplyToDerivedTypes="True">
         <Setter Property="Shell.TabBarBackgroundColor" Value="#0A0B1E" />
