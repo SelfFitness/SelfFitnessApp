@@ -12,6 +12,6 @@ namespace SportApp.Models
 
         public string Name { get; set; }
 
-        public IEnumerable<Plan> Plans { get; set; }
+        public IList<Plan> Plans { get; set; }
     }
 }

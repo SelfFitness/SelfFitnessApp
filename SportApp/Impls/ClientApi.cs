@@ -1,6 +1,5 @@
 ﻿using SportApp.Abstractions;
 using SportApp.Models;
-using System.Globalization;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
@@ -8,7 +7,7 @@ namespace SportApp.Impls
 {
     public class ClientApi : IClientApi, IDisposable
     {
-        const string BaseUrl = "https://b323-136-169-149-77.ngrok-free.app/api";
+        const string BaseUrl = "https://7794-136-169-149-77.ngrok-free.app/api";
 
         private string Token { get; set; }
 
@@ -111,6 +110,12 @@ namespace SportApp.Impls
             }
             catch { }
             return false;
+        }
+
+        public async Task<IEnumerable<ExercisePart>> GetExercises()
+        {
+            var exercices = await _client.GetFromJsonAsync<IEnumerable<ExercisePart>>($"{BaseUrl}/plansapi/exercices");
+            return exercices;
         }
 
         public void Dispose()

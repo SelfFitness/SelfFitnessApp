@@ -90,7 +90,8 @@ namespace SportApp.Viewmodels
             _timer?.Dispose();
             if (CurrentExerciseIndex == Plan.ExerciseParts.Count() - 1)
             {
-                await _clientApi.SaveTrain(Plan.Id);
+                if (Plan.Id != null)
+                    await _clientApi.SaveTrain(Plan.Id.GetValueOrDefault());
                 await _analyticsViewmodel.UpdateTrainHistory();
                 await Shell.Current.Navigation.PopToRootAsync();
                 return;

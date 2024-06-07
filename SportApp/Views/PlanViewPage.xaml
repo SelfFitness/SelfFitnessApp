@@ -37,8 +37,9 @@
                    FontSize="14"
                    VerticalOptions="Center"/>
         </Grid>
-        <CollectionView ItemsSource="{Binding Plan.ExerciseParts, Mode=OneWay}"
-                        Grid.Row="2">
+        <CollectionView ItemsSource="{Binding Plan.ExerciseParts, Mode=TwoWay}"
+                        Grid.Row="2"
+                        CanReorderItems="True">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <VerticalStackLayout x:DataType="models:ExercisePart">

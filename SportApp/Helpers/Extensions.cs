@@ -14,5 +14,16 @@ namespace SportApp.Helpers
                 ExerciseType = part.Count == null ? ExerciseType.Time : ExerciseType.Count
             };
         }
+
+        public static ExercisePart ToExercisePart(this ObservableExercisePart part)
+        {
+            return new ExercisePart()
+            {
+                Id = part.Id,
+                Duration = part.Duration,
+                Count = part.Count,
+                Exercise = part.Exercise,
+            };
+        }
     }
 }

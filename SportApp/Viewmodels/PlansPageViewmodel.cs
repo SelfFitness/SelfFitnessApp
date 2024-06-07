@@ -8,12 +8,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SportApp.Viewmodels
 {
     public partial class PlansPageViewmodel : ObservableObject
     {
+        const string customPlansKey = "customPlans";
+
         [ObservableProperty]
         private ObservableCollection<PlanGroup> _planGroups;
 
@@ -42,12 +45,14 @@ namespace SportApp.Viewmodels
 
         public async Task UpdatePlans()
         {
-            try
+            var planGroups = await _clientApi.GetPlans();
+            PlanGroups = new ObservableCollection<PlanGroup>(planGroups);
+            if (Preferences.ContainsKey(customPlansKey))
             {
-                var planGroups = await _clientApi.GetPlans();
-                PlanGroups = new ObservableCollection<PlanGroup>(planGroups);
+                var rawCustomPlans = Preferences.Get(customPlansKey, null);
+                var customPlans = JsonSerializer.Deserialize<PlanGroup>(rawCustomPlans);
+                PlanGroups.Add(customPlans);
             }
-            catch { }
         }
 
         [RelayCommand]

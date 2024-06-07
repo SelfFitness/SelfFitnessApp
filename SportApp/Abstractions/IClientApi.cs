@@ -25,6 +25,8 @@ namespace SportApp.Abstractions
 
         Task<UserStats> GetUserStats();
 
+        Task<IEnumerable<ExercisePart>> GetExercises();
+
         Task SaveTrain(int planId);
 
         bool Check(string token);

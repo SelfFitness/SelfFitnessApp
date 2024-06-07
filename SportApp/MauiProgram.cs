@@ -32,7 +32,7 @@ namespace SportApp
         {
             // More services registered here.
             var token = SecureStorage.Default.GetAsync("token").GetAwaiter().GetResult();
-            using (var client = new ClientApi())
+            using (var client = new ClientApi(token))
             {
                 var isValid = client.Check(token);
 
