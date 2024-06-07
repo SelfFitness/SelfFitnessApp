@@ -62,7 +62,7 @@ namespace SportApp.Viewmodels
             await Shell.Current.Navigation.PopToRootAsync();
         }
 
-        public async Task StartTimer()
+        public void StartTimer()
         {
             if (CurrentExercise.Count != null)
             {
@@ -97,7 +97,7 @@ namespace SportApp.Viewmodels
                 return;
             }
             CurrentExerciseIndex += 1;
-            await StartTimer();
+            StartTimer();
         }
     }
 }

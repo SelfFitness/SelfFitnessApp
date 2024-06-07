@@ -26,7 +26,7 @@ namespace SportApp.Viewmodels
             _trainPageViewmodel.Plan = Plan;
             _trainPageViewmodel.CurrentExerciseIndex = 0;
             await Shell.Current.Navigation.PushAsync(_trainPage);
-            await _trainPageViewmodel.StartTimer();
+            _trainPageViewmodel.StartTimer();
         }
     }
 }

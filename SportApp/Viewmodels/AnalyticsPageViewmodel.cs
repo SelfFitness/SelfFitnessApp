@@ -92,14 +92,15 @@ namespace SportApp.Viewmodels
         {
             var trainHistory = await _clientApi.GetTrainHistory();
             if (trainHistory != null && trainHistory.Any())
-            {
-                var trains = trainHistory.GroupBy(x => x.Date.Date)
-                    .Select(y => y.First())
-                    .ToList();
+            {;
                 var events = new EventCollection();
-                foreach (var train in trains)
+                foreach (var train in trainHistory)
                 {
-                    events.Add(train.Date.ToLocalTime(), new List<object> { new object() });
+                    try
+                    {
+                        events.Add(train.Date.ToLocalTime(), new List<object> { new object() });
+                    }
+                    catch { }
                 }
                 Events = events;
             }
@@ -204,7 +205,7 @@ namespace SportApp.Viewmodels
             }
             if (coeff > seventhRange)
             {
-                var margin = 5 * cellWidth - arrowSize;
+                var margin = 6 * cellWidth - arrowSize;
                 ArrowMargin = new Thickness(margin, 0, 0, 0);
                 return;
             }
@@ -215,6 +216,26 @@ namespace SportApp.Viewmodels
         {
             await _clientApi.SetParams(Weigth, Heigth);
             await UpdateStats();
+        }
+
+        [RelayCommand]
+        private async Task EditWeigth()
+        {
+            var result = await Shell.Current.CurrentPage.DisplayPromptAsync("Редактирование веса", "Введите ваш вес", "ОК", "Отмена", "80", -1, Keyboard.Numeric);
+            if (!string.IsNullOrEmpty(result) && double.TryParse(result, out double weigth))
+            {
+                Weigth = weigth;
+            }
+        }
+
+        [RelayCommand]
+        private async Task EditHeigth()
+        {
+            var result = await Shell.Current.CurrentPage.DisplayPromptAsync("Редактирование роста", "Введите ваш рост", "ОК", "Отмена", "177", -1, Keyboard.Numeric);
+            if (!string.IsNullOrEmpty(result) && double.TryParse(result, out double heigth))
+            {
+                Heigth = heigth;
+            }
         }
     }
 }
