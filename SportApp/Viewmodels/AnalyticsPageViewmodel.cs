@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microcharts;
 using Plugin.Maui.Calendar.Models;
@@ -158,6 +159,15 @@ namespace SportApp.Viewmodels
             Weigth = stats.Weigth.GetValueOrDefault();
             Heigth = stats.Heigth.GetValueOrDefault();
             SetBmi(stats.Bmi.GetValueOrDefault());
+            await Task.Delay(5000).ContinueWith(async obj => {
+                if (stats.Weigth == null || 
+                    stats.Heigth == null ||
+                    stats.Weigth == 0 ||
+                    stats.Heigth == 0)
+                {
+                    await Shell.Current.CurrentPage.DisplaySnackbar("Установите вес и рост во вкладке Аналитика", null, "Закрыть", TimeSpan.FromSeconds(5));
+                }
+            });
         }
 
         public void SetBmi(double coeff)

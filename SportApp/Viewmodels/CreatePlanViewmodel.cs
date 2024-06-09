@@ -37,6 +37,7 @@ namespace SportApp.Viewmodels
         public async Task LoadExercices()
         {
             var exercices = await _clientApi.GetExercises();
+            exercices = exercices.OrderBy(x => x.Exercise.Title);
             ExerciseParts.Clear();
             foreach (var exercise in exercices)
             {

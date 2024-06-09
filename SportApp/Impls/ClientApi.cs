@@ -7,7 +7,7 @@ namespace SportApp.Impls
 {
     public class ClientApi : IClientApi, IDisposable
     {
-        const string BaseUrl = "https://b9ed-136-169-149-77.ngrok-free.app/api";
+        const string BaseUrl = "https://cd42-136-169-149-77.ngrok-free.app/api";
 
         private string Token { get; set; }
 
